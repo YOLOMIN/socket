@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#define BUF_SIZE 120
 
 int main(){
     //创建套接字
@@ -28,8 +29,13 @@ int main(){
     //accept() 函数用来接收客户端的请求。程序一旦执行到 accept() 就会被阻塞（暂停运行），直到客户端发起请求
     int clnt_sock = accept(serv_sock,(struct sockaddr*)&clnt_addr,&clnt_addr_size);
 
-    char str[] = "Hello world!";
-    write(clnt_sock,str,sizeof(str));
+    char buffer[BUF_SIZE];
+    //接收客户端数据
+    int strLen = recv(clnt_sock,buffer,BUF_SIZE,0);
+    printf("Message form client:%s",buffer);
+    //回传数据
+    send(clnt_sock,buffer,strLen,0);
+
 
     close(clnt_sock);
     close(serv_sock);
