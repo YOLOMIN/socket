@@ -28,9 +28,13 @@ int main(){
 
         //scanf() 读取到空格时认为一个字符串输入结束
         fgets(bufSend,BUF_SIZE,stdin);
-        send(sock,bufSend,strlen(bufSend),0);
         
-        // memset(bufRecv,0,BUF_SIZE);
+        
+        int count = 3;
+        while(count--){
+            send(sock,bufSend,strlen(bufSend),0);
+        }
+        
         recv(sock,bufRecv,BUF_SIZE,0);        
         printf("Message form server:%s\n",bufRecv);
 
