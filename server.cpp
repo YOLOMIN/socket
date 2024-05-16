@@ -26,18 +26,22 @@ int main(){
     //等待客户端连接
     struct sockaddr_in clnt_addr;
     socklen_t clnt_addr_size = sizeof(clnt_addr);
-    //accept() 函数用来接收客户端的请求。程序一旦执行到 accept() 就会被阻塞（暂停运行），直到客户端发起请求
-    int clnt_sock = accept(serv_sock,(struct sockaddr*)&clnt_addr,&clnt_addr_size);
-
     char buffer[BUF_SIZE];
-    //接收客户端数据
-    int strLen = recv(clnt_sock,buffer,BUF_SIZE,0);
-    printf("Message form client:%s",buffer);
-    //回传数据
-    send(clnt_sock,buffer,strLen,0);
+    while(1){
+        //accept() 函数用来接收客户端的请求。程序一旦执行到 accept() 就会被阻塞（暂停运行），直到客户端发起请求
+        int clnt_sock = accept(serv_sock,(struct sockaddr*)&clnt_addr,&clnt_addr_size);
 
+        
+        //接收客户端数据
+        int strLen = recv(clnt_sock,buffer,BUF_SIZE,0);
+        printf("Message form client:%s",buffer);
+        //回传数据
+        send(clnt_sock,buffer,strLen,0);
 
-    close(clnt_sock);
+        close(clnt_sock);
+        memset(buffer,0,strlen(buffer));
+    }
+    
     close(serv_sock);
 
     return 0;
