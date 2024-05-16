@@ -23,6 +23,12 @@ int main(){
     //监听端口-所谓被动监听，是指套接字一直处于“睡眠”中，直到客户端发起请求才会被“唤醒”
     listen(serv_sock,20);
 
+
+    unsigned optVal;
+    socklen_t optLen = sizeof(int);
+    getsockopt(serv_sock,SOL_SOCKET,SO_SNDBUF,(char*)&optVal,&optLen);
+    printf("Buffer length:%d\n",optVal);
+
     //等待客户端连接
     struct sockaddr_in clnt_addr;
     socklen_t clnt_addr_size = sizeof(clnt_addr);
